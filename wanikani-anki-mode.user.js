@@ -1,16 +1,18 @@
 // ==UserScript==
 // @name         Wanikani Anki Mode
-// @namespace    mempo
-// @version      1.7.1
+// @namespace    ezhmd
+// @version      1.7.2
 // @description  Anki mode for Wanikani
-// @author       Mempo
+// @author       Ezzat Chamudi
 // @match        https://www.wanikani.com/review/session*
 // @match        http://www.wanikani.com/review/session*
 // @grant        none
 // @license      GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 
-//Original author: Oleg Grishin <og402@nyu.edu>
+// Original author: Oleg Grishin <og402@nyu.edu>
+// Modified by: https://community.wanikani.com/u/mempo
+// Modified by: https://community.wanikani.com/u/ezhmd
 
 console.log('/// Start of Wanikani Anki Mode');
 
@@ -21,12 +23,18 @@ var originalChecker = answerChecker.evaluate;
 console.log(originalChecker);
 
 var checkerYes = function (itemType, correctValue) {
-    return {accurate : !0, passed: !0};
-}
+    return {
+        accurate: !0,
+        passed: !0
+    };
+};
 
 var checkerNo = function (itemType, correctValue) {
-    return {accurate : !0, passed: 0};
-}
+    return {
+        accurate: !0,
+        passed: 0
+    };
+};
 
 var activated = false;
 var answerShown = false;
@@ -34,38 +42,36 @@ var answerShown = false;
 //AUTOSTART
 var autostart = false;
 
-
 // MutationObserver = window.MutationObserver || window.WebKitMutationObserver;
 
-var observer = new MutationObserver(function(mutations, observer) {
+var observer = new MutationObserver(function (mutations, observer) {
     $("#user-response").blur();
 });
 
- var WKANKIMODE_toggle = function () {
-     
+var WKANKIMODE_toggle = function () {
+
     if (activated) {
-        if(autostart){
+        if (autostart) {
             //DISABLE ANKI MODE
             $("#WKANKIMODE_anki").text("Anki Mode Off");
             $("#answer-form form button").prop("disabled", false);
             $("#user-response").off("focus");
             $("#user-response").focus();
-            
+
             answerChecker.evaluate = originalChecker;
             observer.disconnect();
-            
+
             localStorage.setItem("WKANKI_autostart", false);
             activated = false;
             autostart = false;
             console.log("back to #1");
-            
-            
-        }else{
+
+        } else {
             //ENABLE AUTOSTART
             activated = true;
             autostart = true;
             localStorage.setItem("WKANKI_autostart", true);
-            
+
             $("#WKANKIMODE_anki").text("Anki Mode Auto Start");
 
             // start observer to force blur
@@ -76,11 +82,7 @@ var observer = new MutationObserver(function(mutations, observer) {
                 characterData: false
             });
         }
-        
-        
-        
-        
-        
+
     } else {
         //ENABLE ANKI MODE
         $("#WKANKIMODE_anki").text("Anki Mode On");
@@ -98,33 +100,41 @@ var observer = new MutationObserver(function(mutations, observer) {
             characterData: false
         });
     }
+};
 
-}
+var answerIndexZero = ""; // first answer for question with multiple answers
+var answer = "";
 
- var WKANKIMODE_showAnswer = function () {
+var WKANKIMODE_showAnswer = function () {
     if (!$("#answer-form form fieldset").hasClass("correct") &&
         !$("#answer-form form fieldset").hasClass("incorrect") &&
-        !answerShown ) {
+        !answerShown) {
         var currentItem = $.jStorage.get("currentItem");
         var questionType = $.jStorage.get("questionType");
         if (questionType === "meaning") {
-            var answer = currentItem.en.join(", ");
+            answer = currentItem.en.join(", ");
             if (currentItem.syn.length) {
                 answer += " (" + currentItem.syn.join(", ") + ")";
             }
             $("#user-response").val(answer);
         } else { //READING QUESTION
             var i = 0;
-            var answer = "";
+            answer = "";
+
+            console.log(currentItem);
 
             if (currentItem.voc) {
-                answer += currentItem.kana[0];
+                answerIndexZero = currentItem.kana[0];
+                answer += currentItem.kana.join(", ");
             } else if (currentItem.emph == 'kunyomi') {
-                answer += currentItem.kun[0];
+                answerIndexZero = currentItem.kun[0];
+                answer += currentItem.kun.join(", ");
             } else if (currentItem.emph == 'nanori') {
-                answer += currentItem.nanori[0];
+                answerIndexZero = currentItem.nanori[0];
+                answer += currentItem.nanori.join(", ");
             } else {
-                answer += currentItem.on[0];
+                answerIndexZero = currentItem.on[0];
+                answer += currentItem.on.join(", ");
             }
             $("#user-response").val(answer);
         }
@@ -132,7 +142,14 @@ var observer = new MutationObserver(function(mutations, observer) {
     }
 };
 
- var WKANKIMODE_answerYes = function () {
+var WKANKIMODE_answerYes = function () {
+
+    // Fix for multiple answers in reading
+    if (answerIndexZero) {
+        $("#user-response").val(answerIndexZero);
+        answerIndexZero = "";
+    }
+
     if (answerShown) {
         answerChecker.evaluate = checkerYes;
         $("#answer-form form button").click();
@@ -143,13 +160,20 @@ var observer = new MutationObserver(function(mutations, observer) {
 
     // if answer is shown, press '1' one more time to go to next
     if ($("#answer-form form fieldset").hasClass("correct") ||
-        $("#answer-form form fieldset").hasClass("incorrect") ) {
+        $("#answer-form form fieldset").hasClass("incorrect")) {
         $("#answer-form form button").click();
     }
 
 };
 
 var WKANKIMODE_answerNo = function () {
+
+    // Fix for multiple answers in reading
+    if (answerIndexZero) {
+        $("#user-response").val(answerIndexZero);
+        answerIndexZero = "";
+    }
+
     if (answerShown) {
         answerChecker.evaluate = checkerNo;
         $("#answer-form form button").click();
@@ -159,41 +183,40 @@ var WKANKIMODE_answerNo = function () {
     }
 
     if ($("#answer-form form fieldset").hasClass("correct") ||
-        $("#answer-form form fieldset").hasClass("incorrect") ) {
+        $("#answer-form form fieldset").hasClass("incorrect")) {
         $("#answer-form form button").click();
     }
 
 };
 
-
-    /*jshint multistr: true */
-    var css = "\
-        #WKANKIMODE_anki { \
-            background-color: #000099; \
-            margin: 0 5px; \
-        } \
-        #WKANKIMODE_yes { \
-            background-color: #009900; \
-            margin: 0 0 0 5px; \
-        } \
-        #WKANKIMODE_no { \
-            background-color: #990000; \
-        } \
-        .WKANKIMODE_button { \
-            display: inline-block; \
-            font-size: 0.8125em; \
-            color: #FFFFFF; \
-            cursor: pointer; \
-            padding: 10px; \
-        } \
-        #WKANKIMODE_anki.hidden { \
-            display: none; \
-        } \
-        .incorrect { \
-            background-color: #990000; \
-            min-width: calc(25vw - 10px); \
-            margin: 0 5px !important; \
-        } \
+/*jshint multistr: true */
+var css = "\
+    #WKANKIMODE_anki { \
+        background-color: #000099; \
+        margin: 0 5px; \
+    } \
+    #WKANKIMODE_yes { \
+        background-color: #009900; \
+        margin: 0 0 0 5px; \
+    } \
+    #WKANKIMODE_no { \
+        background-color: #990000; \
+    } \
+    .WKANKIMODE_button { \
+        display: inline-block; \
+        font-size: 0.8125em; \
+        color: #FFFFFF; \
+        cursor: pointer; \
+        padding: 10px; \
+    } \
+    #WKANKIMODE_anki.hidden { \
+        display: none; \
+    } \
+    .incorrect { \
+        background-color: #990000; \
+        min-width: calc(25vw - 10px); \
+        margin: 0 5px !important; \
+    } \
     .correct { \
             background-color: #009900; \
             min-width: calc(25vw - 10px); \
@@ -206,60 +229,61 @@ var WKANKIMODE_answerNo = function () {
         } \
 ";
 
-
-
 function addStyle(aCss) {
-  var head, style;
-  head = document.getElementsByTagName('head')[0];
-  if (head) {
-    style = document.createElement('style');
-    style.setAttribute('type', 'text/css');
-    style.textContent = aCss;
-    head.appendChild(style);
-    return style;
-  }
-  return null;
+    var head, style;
+    head = document.getElementsByTagName('head')[0];
+    if (head) {
+        style = document.createElement('style');
+        style.setAttribute('type', 'text/css');
+        style.textContent = aCss;
+        head.appendChild(style);
+        return style;
+    }
+    return null;
 }
 
-var addButtons = function () {    
+var addButtons = function () {
     //CHECK AUTOSTART
-    autostart = localStorage.getItem('WKANKI_autostart')==="true"?true:false;
-    
-    $("<div />", {
-                id : "WKANKIMODE_anki",
-                title : "Anki Mode",
-    })
-    .text("Anki Mode Off")
-    .addClass("WKANKIMODE_button")
-    .on("click", WKANKIMODE_toggle)
-    .prependTo("footer");
+    autostart = localStorage.getItem('WKANKI_autostart') === "true" ? true : false;
 
     $("<div />", {
-        id : "WKANKIMODE_anki_incorrect",
-        title : "No",
-    })
-    .text("Don't know")
-    .addClass("WKANKIMODE_button incorrect")
-    .on("click", WKANKIMODE_answerNo)
-    .appendTo("#answer-form");
+            id: "WKANKIMODE_anki",
+            title: "Anki Mode",
+        })
+        .text("Anki Mode Off")
+        .addClass("WKANKIMODE_button")
+        .on("click", WKANKIMODE_toggle)
+        .prependTo("footer");
+
+    // add physical buttons to press yes/no/show answer
+    // made by https://community.wanikani.com/u/neicul
 
     $("<div />", {
-        id : "WKANKIMODE_anki_show",
-        title : "Show",
-    })
-    .text("Show")
-    .addClass("WKANKIMODE_button show")
-    .on("click", WKANKIMODE_showAnswer)
-    .appendTo("#answer-form");
+            id: "WKANKIMODE_anki_incorrect",
+            title: "No",
+        })
+        .text("Don't know")
+        .addClass("WKANKIMODE_button incorrect")
+        .on("click", WKANKIMODE_answerNo)
+        .appendTo("#answer-form");
 
     $("<div />", {
-        id : "WKANKIMODE_anki_correct",
-                title : "Yes",
-    })
-    .text("Know")
-    .addClass("WKANKIMODE_button correct")
-    .on("click", WKANKIMODE_answerYes)
-    .appendTo("#answer-form");
+            id: "WKANKIMODE_anki_show",
+            title: "Show",
+        })
+        .text("Show")
+        .addClass("WKANKIMODE_button show")
+        .on("click", WKANKIMODE_showAnswer)
+        .appendTo("#answer-form");
+
+    $("<div />", {
+            id: "WKANKIMODE_anki_correct",
+            title: "Yes",
+        })
+        .text("Know")
+        .addClass("WKANKIMODE_button correct")
+        .on("click", WKANKIMODE_answerYes)
+        .appendTo("#answer-form");
 
     // TO-DO
     // add physical buttons to press yes/no/show answer
@@ -272,9 +296,9 @@ var addButtons = function () {
 
 };
 
-var autostartFeature = function() {
+var autostartFeature = function () {
     console.log("///////////// AUTOSTART: " + autostart);
-    if(autostart){
+    if (autostart) {
         $("#WKANKIMODE_anki").text("Anki Mode Auto Start");
         $("#answer-form form button").prop("disabled", true);
         $("#user-response").on("focus", function () {
@@ -289,47 +313,41 @@ var autostartFeature = function() {
             characterData: false
         });
     }
-}
-
-var bindHotkeys = function () {
-    $(document).on("keydown.reviewScreen", function (event)
-        {
-            if ($("#reviews").is(":visible") && !$("*:focus").is("textarea, input"))
-            {
-                switch (event.keyCode) {
-                    case 32:
-                        event.stopPropagation();
-                        event.preventDefault();
-
-                        if (activated)
-                            WKANKIMODE_showAnswer();
-
-                        return;
-                        break;
-                    case 49:
-                        event.stopPropagation();
-                        event.preventDefault();
-
-                        if (activated)
-                            WKANKIMODE_answerYes();
-
-                        return;
-                        break;
-                    case 50:
-
-                        event.stopPropagation();
-                        event.preventDefault();
-
-                        if (activated)
-                            WKANKIMODE_answerNo();
-
-                        return;
-                        break;
-                }
-            }
-        });
 };
 
+var bindHotkeys = function () {
+    $(document).on("keydown.reviewScreen", function (event) {
+        if ($("#reviews").is(":visible") && !$("*:focus").is("textarea, input")) {
+            switch (event.keyCode) {
+                case 32:
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    if (activated)
+                        WKANKIMODE_showAnswer();
+
+                    return;
+                case 49:
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    if (activated)
+                        WKANKIMODE_answerYes();
+
+                    return;
+                case 50:
+
+                    event.stopPropagation();
+                    event.preventDefault();
+
+                    if (activated)
+                        WKANKIMODE_answerNo();
+
+                    return;
+            }
+        }
+    });
+};
 
 addStyle(css);
 addButtons();
