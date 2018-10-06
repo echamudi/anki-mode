@@ -6,6 +6,8 @@
 // @author       Ezzat Chamudi
 // @match        https://bunpro.jp/study*
 // @match        http://bunpro.jp/study*
+// @match        https://www.bunpro.jp/study*
+// @match        http://www.bunpro.jp/study*
 // @grant        none
 // @updateURL      https://github.com/ezhmd/anki-mode/raw/master/bunpro-anki-mode.user.js
 // @downloadURL    https://github.com/ezhmd/anki-mode/raw/master/bunpro-anki-mode.user.js
