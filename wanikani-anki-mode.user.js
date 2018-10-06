@@ -7,6 +7,8 @@
 // @match        https://www.wanikani.com/review/session*
 // @match        http://www.wanikani.com/review/session*
 // @grant        none
+// @updateURL      https://github.com/ezhmd/anki-mode/raw/master/wanikani-anki-mode.user.js
+// @downloadURL    https://github.com/ezhmd/anki-mode/raw/master/wanikani-anki-mode.user.js
 // @license      GPL version 3 or any later version; http://www.gnu.org/copyleft/gpl.html
 // ==/UserScript==
 
