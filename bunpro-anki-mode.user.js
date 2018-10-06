@@ -4,8 +4,8 @@
 // @version      1.7.2
 // @description  Anki mode for Bunpro
 // @author       Ezzat Chamudi
-// @match        https://bunpro.jp/study/*
-// @match        http://bunpro.jp/study/*
+// @match        https://bunpro.jp/study
+// @match        http://bunpro.jp/study
 // @grant        none
 // @updateURL      https://github.com/ezhmd/anki-mode/raw/master/bunpro-anki-mode.user.js
 // @downloadURL    https://github.com/ezhmd/anki-mode/raw/master/bunpro-anki-mode.user.js
