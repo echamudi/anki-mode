@@ -1,1 +1,1 @@
-# wanikani-anki-mode
+# Anki Mode for SRS sites
