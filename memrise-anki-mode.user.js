@@ -5,8 +5,8 @@
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
 // @version        0.0.10
-// @updateURL      https://github.com/ezhmd/memrise-dont-know/raw/master/memrise-anki-mode.user.js
-// @downloadURL    https://github.com/ezhmd/memrise-dont-know/raw/master/memrise-anki-mode.user.js
+// @updateURL      https://github.com/ezhmd/anki-mode/raw/master/memrise-anki-mode.user.js
+// @downloadURL    https://github.com/ezhmd/anki-mode/raw/master/memrise-anki-mode.user.js
 // @grant          none
 // ==/UserScript==
 
