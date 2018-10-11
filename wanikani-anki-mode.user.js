@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Wanikani Anki Mode
 // @namespace    ezhmd
-// @version      1.7.2
+// @version      1.7.3
 // @description  Anki mode for Wanikani
 // @author       Ezzat Chamudi
 // @match        https://www.wanikani.com/review/session*
