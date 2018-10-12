@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Wanikani Anki Mode
 // @namespace    ezhmd
-// @version      1.7.3
+// @version      1.7.4
 // @description  Anki mode for Wanikani
 // @author       Ezzat Chamudi
 // @match        https://www.wanikani.com/review/session*
@@ -131,15 +131,15 @@ var WKANKIMODE_showAnswer = function () {
             } else if (currentItem.emph == 'kunyomi') {
                 answerIndexZero = currentItem.kun[0];
                 answer += currentItem.kun.join(", ");
-                answer += " (on: " + currentItem.on.join(", ") + " ; nan: " + currentItem.nanori.join(", ");
+                answer += " (on: " + currentItem.on.join(", ") + "; nan: " + currentItem.nanori.join(", ") + ")";
             } else if (currentItem.emph == 'nanori') {
                 answerIndexZero = currentItem.nanori[0];
                 answer += currentItem.nanori.join(", ");
-                answer += " (kun: " + currentItem.kun.join(", ") + " ; on: " + currentItem.on.join(", ");
+                answer += " (kun: " + currentItem.kun.join(", ") + "; on: " + currentItem.on.join(", ") + ")";
             } else {
                 answerIndexZero = currentItem.on[0];
                 answer += currentItem.on.join(", ");
-                answer += " (kun: " + currentItem.kun.join(", ") + " ; nan: " + currentItem.nanori.join(", ");
+                answer += " (kun: " + currentItem.kun.join(", ") + "; nan: " + currentItem.nanori.join(", ") + ")";
             }
             $("#user-response").val(answer);
         }
