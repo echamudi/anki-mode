@@ -1,10 +1,18 @@
 # Anki Mode for SRS sites
 
+This repo contains browser userscripts for some SRS based memorization website that enable user to learn by answering "remember" or "forget" without typing.
+
+The currently supported websites are:
+
+* [Wanikani](https://wanikani.com)
+* [Bunpro](https://bunpro.jp)
+* [Memrise](https://memrise.com)
+
 ## Authors
 
 * **Ezzat Chamudi** - [ezhmd](https://github.com/ezhmd)
 
-Some codes are forked from following authors:
+Some parts of the code are forked from following authors:
 
 * **Aaron Miles** - [cooljingle](https://github.com/cooljingle)
 * **Mempo** - [mempo](https://community.wanikani.com/u/mempo)
