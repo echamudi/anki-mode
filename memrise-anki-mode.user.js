@@ -4,7 +4,7 @@
 // @description    Review Memrise words like Anki, answer by correct or false.
 // @match          https://www.memrise.com/course/*/garden/*
 // @match          https://www.memrise.com/garden/review/*
-// @version        0.0.10
+// @version        0.0.11
 // @updateURL      https://github.com/ezhmd/anki-mode/raw/master/memrise-anki-mode.user.js
 // @downloadURL    https://github.com/ezhmd/anki-mode/raw/master/memrise-anki-mode.user.js
 // @grant          none
@@ -60,8 +60,13 @@ $(document).ready(function() {
 
     MEMRISE.garden._events.start.push(() => {
         $.each(MEMRISE.garden.screens, function (i) {
-            MEMRISE.garden.screens[i].multiple_choice.choices = [""];
-            MEMRISE.garden.screens[i].reversed_multiple_choice.choices = [""];
+            MEMRISE.garden.screens[i][2].choices = [""];
+            MEMRISE.garden.screens[i][3].choices = [""];
+        });
+
+        $.each(MEMRISE.garden.screen_template_map, function (i) {
+            MEMRISE.garden.screen_template_map[i].multiple_choice[0].choices = [""];
+            MEMRISE.garden.screen_template_map[i].reversed_multiple_choice[0].choices = [""];
         });
     });
 
