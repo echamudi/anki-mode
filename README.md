@@ -1,6 +1,6 @@
 # Anki Mode for SRS sites
 
-This repo contains browser userscripts for some SRS based memorization website that enable user to learn by answering "remember" or "forget" without typing.
+This repo contains browser userscripts for several [spaced repetition](https://en.wikipedia.org/wiki/Spaced_repetition) based memorization websites that enable users to learn by answering "remember" or "forget" without typing.
 
 The currently supported websites are:
 
@@ -12,7 +12,7 @@ The currently supported websites are:
 
 * **Ezzat Chamudi** - [ezhmd](https://github.com/ezhmd)
 
-Some parts of the code are forked from following authors:
+Some parts of the code are forked and modified from following authors:
 
 * **Aaron Miles** - [cooljingle](https://github.com/cooljingle)
 * **Mempo** - [mempo](https://community.wanikani.com/u/mempo)
