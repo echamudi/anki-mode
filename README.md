@@ -19,7 +19,7 @@ Some parts of the code are forked from following authors:
 
 ## Licenses
 
-Poster Egg code released under [AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html). 
+Code released under [AGPLv3](http://www.gnu.org/licenses/agpl-3.0.html). 
 
 Images, logos, docs, and articles released under [CC BY-SA 4.0](https://creativecommons.org/licenses/by-sa/4.0/). 
 
