@@ -39,8 +39,10 @@ var css = "\
     } \
     \
     .review-padding-bottom {\
-	    text-align: center;\
-	}\
+        display: inline-flex;\
+        width: 100%;\
+        justify-content: center;\
+    }\
 ";
 
 $(`<style>${css}</style>
