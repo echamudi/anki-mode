@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bunpro Anki Mode
 // @namespace    ezhmd
-// @version      1.7.2
+// @version      1.8
 // @description  Anki mode for Bunpro
 // @author       Ezzat Chamudi
 // @match        https://bunpro.jp/study*
