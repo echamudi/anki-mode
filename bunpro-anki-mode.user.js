@@ -36,7 +36,7 @@ var css = `
         padding: 10px;
         width: 30%;
         max-width: 130px;
-    } 
+    }
 
     .review-padding-bottom {
         display: inline-flex;
