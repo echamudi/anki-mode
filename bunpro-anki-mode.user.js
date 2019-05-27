@@ -18,32 +18,32 @@
 (function() {
     'use strict';
 
-var css = "\
-    .anki-show { \
-        background-color: #000099; \
-    } \
-    .anki-yes { \
-        background-color: #009900; \
-    } \
-    .anki-no { \
-        background-color: #990000; \
-    } \
-    .anki-button { \
-        display: inline-block; \
-        font-size: 0.8125em; \
-        color: #FFFFFF; \
-        cursor: pointer; \
-        padding: 10px; \
-        width: 30%; \
-	    max-width: 130px; \
-    } \
-    \
-    .review-padding-bottom {\
-        display: inline-flex;\
-        width: 100%;\
-        justify-content: center;\
-    }\
-";
+var css = `
+    .anki-show {
+        background-color: #000099;
+    }
+    .anki-yes {
+        background-color: #009900;
+    }
+    .anki-no {
+        background-color: #990000;
+    }
+    .anki-button {
+        display: inline-block;
+        font-size: 0.8125em;
+        color: #FFFFFF;
+        cursor: pointer;
+        padding: 10px;
+        width: 30%;
+        max-width: 130px;
+    } 
+
+    .review-padding-bottom {
+        display: inline-flex;
+        width: 100%;
+        justify-content: center;
+    }
+`;
 
 $(`<style>${css}</style>
 <span class="anki-button anki-no" onclick='answerShow();'>Don't Know</span>
