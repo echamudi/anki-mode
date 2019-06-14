@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Bunpro Anki Mode
 // @namespace    ezhmd
-// @version      1.9
+// @version      1.10
 // @description  Anki mode for Bunpro
 // @author       Ezzat Chamudi
 // @match        https://bunpro.jp/study*
@@ -53,17 +53,17 @@ $(`<style>${css}</style>
 .appendTo(".review-padding-bottom");
 
 $(".anki-show").click(function() {
-	$("#show-answer").click();
+    $("#show-answer").click();
     $("#study-answer-input").val($(".study-area-input").first().text());
 });
 
 $(".anki-yes").click(function() {
-	$("#submit-study-answer").click();
+    $("#submit-study-answer").click();
 });
 
 $(".anki-no").click(function() {
-	$("#study-answer-input").val("あああああああ");
-	$("#submit-study-answer").click();
+    $("#study-answer-input").val("あああああああ");
+    $("#submit-study-answer").click();
 });
 
 })();
